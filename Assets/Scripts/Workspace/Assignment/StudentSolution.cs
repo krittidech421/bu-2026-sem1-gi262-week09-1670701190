@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace Assignment
 {
     public class StudentSolution
@@ -16,16 +18,20 @@ namespace Assignment
         public (int Count, int Popped, int Peek, int CountAfterPeek) LCT01_StackSyntax()
         {
             Stack<int> stack = new Stack<int>();
+
             stack.Push(1);
             stack.Push(2);
-            stack.Push(3);//เอาออก
+            stack.Push(3);
 
             int count = stack.Count;
             Debug.Log($"Count: {count}");
-            int popped = stack.Pop();//3
+
+            int popped = stack.Pop();
             Debug.Log($"Popped: {popped}");
+
             int peek = stack.Peek();
             Debug.Log($"Peek: {peek}");
+
             int countAfterPeek = stack.Count;
             Debug.Log($"CountAfterPeek: {countAfterPeek}");
 
@@ -35,16 +41,19 @@ namespace Assignment
         public (int Count, int Dequeued, int Peek, int CountAfterPeek) LCT02_QueueSyntax()
         {
             Queue<int> queue = new Queue<int>();
-            queue.Enqueue(1);//เอา 1 ออก
+            queue.Enqueue(1);
             queue.Enqueue(2);
             queue.Enqueue(3);
 
             int count = queue.Count;
             Debug.Log($"Count: {count}");
+
             int dequeued = queue.Dequeue();
             Debug.Log($"Dequeued: {dequeued}");
+
             int peek = queue.Peek();
             Debug.Log($"Peek: {peek}");
+
             int countAfterPeek = queue.Count;
             Debug.Log($"CountAfterPeek: {countAfterPeek}");
 
@@ -58,6 +67,7 @@ namespace Assignment
             Action action3 = new Action { Name = "Action 3" };
 
             Stack<Action> stack = new Stack<Action>();
+
             stack.Push(action1);
             stack.Push(action2);
             stack.Push(action3);
@@ -65,9 +75,9 @@ namespace Assignment
             string[] poppedName = new string[stack.Count];
             for (int i = 0; i < poppedName.Length; i++)
             {
-                var popped = stack.Pop();
-                poppedName[i] = popped.Name;
-                Debug.Log($"Popped: {poppedName[i]}");
+                var poppe = stack.Pop();
+                poppedName[i] = poppe.Name;
+                Debug.Log($"Popped {poppedName[i]}");
             }
 
             return (poppedName);
@@ -80,18 +90,20 @@ namespace Assignment
             Action action3 = new Action { Name = "Action 3" };
 
             Queue<Action> queue = new Queue<Action>();
+
             queue.Enqueue(action1);
             queue.Enqueue(action2);
             queue.Enqueue(action3);
 
-            string[] dequeneedName = new string[queue.Count];
-            for (int i = 0; i < dequeneedName.Length; i++)
+            string[] dequeuedName = new string[queue.Count];
+            for (int i = 0; i < dequeuedName.Length; i++)
             {
-                var dequeneed = queue.Dequeue();
-                dequeneedName[i] = dequeneed.Name;
-                Debug.Log($"Dequeued: {dequeneedName[i]}");
+                var dequeuepe = queue.Dequeue();
+                dequeuedName[i] = dequeuepe.Name;
+                Debug.Log($"Dequeued: {dequeuedName[i]}");
             }
-            return dequeneedName;
+
+            return (dequeuedName);
         }
 
         #endregion
@@ -100,12 +112,27 @@ namespace Assignment
 
         public string ASN01_ReverseString(string str)
         {
-            throw new NotImplementedException();
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char c in str)
+            {
+                stack.Push(c);
+            }
+
+            char[] reversedChars = new char[str.Length];
+            for (int i = 0; i < str.Length; i++)
+            {
+                reversedChars[i] = stack.Pop();
+            }
+
+            return new string(reversedChars);
         }
 
         public bool ASN02_StackPalindrome(string str)
         {
-            throw new NotImplementedException();
+            string reversed = ASN01_ReverseString(str);
+
+            return str == reversed;
         }
 
         #endregion
@@ -114,7 +141,33 @@ namespace Assignment
 
         public bool EX01_ParenthesesChecker(string str)
         {
-            throw new NotImplementedException();
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char c in str)
+            {
+                if (c == '(' || c == '[' || c == '{')
+                {
+                    stack.Push(c);
+                }
+                else if (c == ')' || c == ']' || c == '}')
+                {
+                    if (stack.Count == 0)
+                    {
+                        return false;
+                    }
+
+                    char top = stack.Pop();
+
+                    if ((c == ')' && top != '(') ||
+                        (c == ']' && top != '[') ||
+                        (c == '}' && top != '{'))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return stack.Count == 0;
         }
 
         #endregion
